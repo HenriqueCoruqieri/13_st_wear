@@ -5,6 +5,9 @@
 >
 > A **identidade visual** tem documento próprio: [`docs/design.md`](docs/design.md) —
 > paleta, tipografia, forma e a spec de cada seção. Decisão visual se resolve lá.
+>
+> Os esboços em `docs/reference/` são de **onde a identidade saiu**, não o destino da
+> página. A distinção entre o que é vinculante e o que é substituível está na seção 5.
 
 ## 1. O produto
 
@@ -174,7 +177,8 @@ dono não entram na base.
 - **Mobile-first sempre.** Escreva o estilo base para telas pequenas e suba com `sm:`
   `md:` `lg:`. Nunca o contrário.
 - **Toda decisão visual vem de [`docs/design.md`](docs/design.md).** Cor, fonte,
-  espaçamento e comportamento de seção estão especificados lá. Não improvise visual.
+  espaçamento e comportamento de seção estão especificados lá. Não improvise visual —
+  respeitando a distinção de peso logo abaixo.
 - Cores, fontes e espaçamentos vêm de **tokens do `@theme`**. Valores arbitrários
   (`text-[#ff0000]`, `mt-[13px]`) são proibidos fora de caso justificado por escrito.
 - Classes utilitárias direto no JSX. Só extraia para componente quando a **estrutura**
@@ -185,6 +189,36 @@ dono não entram na base.
   `<nav>`, `<footer>`), um único `<h1>`, hierarquia de heading sem pular nível,
   contraste mínimo AA e foco visível em tudo que é interativo.
 - Links externos: `target="_blank"` sempre acompanhado de `rel="noopener noreferrer"`.
+
+### Os esboços são ponto de partida, não destino
+
+As imagens em `docs/reference/` são a origem da identidade, não um contrato sobre o que
+a página precisa virar. Por isso `docs/design.md` tem **duas camadas com pesos
+diferentes**:
+
+| Camada      | O que é                                                        | Peso                                                      |
+| ----------- | -------------------------------------------------------------- | --------------------------------------------------------- |
+| **Sistema** | Tokens, paleta, tipografia, forma, regras de acessibilidade    | **Vinculante.** Muda só quando o usuário pede             |
+| **Seções**  | A spec de cada bloco da página e o shape dos dados que ele usa | **Derivado.** Acompanha as decisões de produto do usuário |
+
+O usuário trocar, cortar ou reordenar uma seção é o funcionamento normal deste projeto,
+não um desvio. **Uma seção que não se parece mais com o esboço não é um defeito** —
+nenhum agente deve reportá-la como divergência, nem tentar reconciliar a página com a
+imagem de referência.
+
+O que continua proibido é **inventar vocabulário novo**: cor, fonte, raio ou
+espaçamento fora dos tokens. Frase nova no idioma existente, sim; idioma novo, não.
+
+Quando uma seção muda, a ordem é:
+
+1. O **usuário** decide o que a seção passa a ser — é decisão de produto, de mais
+   ninguém.
+2. O **`ui-designer`** reescreve a spec daquela seção em `docs/design.md` **antes** da
+   implementação, reutilizando os tokens que já existem, e remove o que morreu.
+3. O **`writer`** implementa a spec nova.
+
+Spec ausente em `docs/design.md` não é permissão para improvisar — é sinal de que o
+passo 2 ainda não aconteceu.
 
 ## 6. Definition of Done
 

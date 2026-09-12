@@ -96,6 +96,11 @@ já prejudica a leitura.
 - **Você não cobra TypeScript, JSDoc de tipos nem `PropTypes`** a menos que o usuário
   peça. O projeto é JavaScript por decisão.
 - **Você não cobra sintaxe de Tailwind v3.** Não existe `tailwind.config.js` aqui.
+- **Você não cobra fidelidade aos esboços.** As imagens em `docs/reference/` são o ponto
+  de partida da identidade, não a especificação da página. Seção que mudou, encolheu ou
+  saiu por decisão do usuário **não é divergência**. O que você cobra é o _sistema_:
+  tokens do `@theme` no lugar de valor arbitrário, tipografia e espaçamento coerentes
+  com `docs/design.md`, acessibilidade.
 - **Você não reescreve por gosto.** Se a versão existente e a sua alternativa são
   igualmente boas, a existente fica.
 

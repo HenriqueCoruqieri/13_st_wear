@@ -68,7 +68,7 @@ function Hero() {
           ))}
         </h1>
 
-        <p className="text-muted-foreground mt-6 max-w-xs font-sans text-base sm:mt-8 sm:text-sm">
+        <p className="text-muted-foreground mt-6 max-w-xs font-sans text-sm sm:mt-8 sm:text-sm">
           {hero.tagline.map((line) => (
             <span key={line} className="block">
               {line}

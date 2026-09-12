@@ -3,7 +3,7 @@ export const hero = {
     mark: '13',
     lines: ['STREET', 'WEAR'],
   },
-  tagline: ['Streetwear feito para quem vive a rua.', 'A moda passa, o estilo permanece.'],
+  tagline: ['Conforto, qualidade e estilo', 'para quem vive a rua'],
   cta: {
     label: 'WhatsApp',
     href: null,

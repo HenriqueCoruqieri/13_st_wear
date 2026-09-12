@@ -1,7 +1,17 @@
 # 13 Street Wear — Referência de Design
 
-> Derivado dos esboços visuais do projeto. Esta é a **fonte de verdade da identidade
-> visual**: nenhum agente inventa cor, fonte ou espaçamento por conta própria.
+> Derivado dos esboços em `docs/reference/`. Eles são o **ponto de partida** da
+> identidade — não o destino da página.
+>
+> Este documento tem **duas camadas, com pesos diferentes** (regra completa na seção 5
+> do [`CLAUDE.md`](../CLAUDE.md)):
+>
+> - **Sistema** — _Direção de arte_, _Tokens_ e _Acessibilidade_. É o vocabulário
+>   visual da marca e é **vinculante**: nenhum agente inventa cor, fonte ou espaçamento
+>   por conta própria.
+> - **Seções** e _Dados_ — registram o que a página é **hoje**. São **derivados**:
+>   acompanham as decisões de produto do usuário e são reescritos quando elas mudam.
+>   Uma seção que não se parece mais com o esboço não é um defeito.
 >
 > **Status dos valores:** os tokens abaixo foram lidos a olho a partir de imagens, não
 > exportados de uma ferramenta de design. Eles são uma aproximação fiel, não um
@@ -64,6 +74,11 @@ Regras de uso:
 
 ## Seções
 
+> Camada **derivada**. Esta é a página de hoje, não um alvo a ser defendido. Quando o
+> usuário mudar uma seção, o `ui-designer` reescreve a spec aqui — reutilizando os
+> tokens acima — e apaga o que saiu de cena. Seção sem spec não é convite a improvisar:
+> é sinal de que a spec ainda não foi escrita.
+
 ### 1. Hero
 
 Vídeo em loop ocupando a tela inteira, conteúdo ancorado na base à esquerda.
@@ -124,6 +139,9 @@ Todo link externo leva `target="_blank"` e `rel="noopener noreferrer"`.
 
 ## Dados
 
+> Camada **derivada**, como as seções: cada shape aqui só existe enquanto a seção que o
+> consome existir.
+
 O conteúdo mora em `src/data/`, nunca no JSX. Shape esperado de um produto:
 
 ```js
@@ -157,5 +175,10 @@ ele precisa ser desenhado de propósito.
 
 ## Imagens de referência
 
-As imagens originais do esboço devem ser guardadas em `docs/reference/`, para que
-qualquer agente possa abri-las com `Read` em vez de depender da descrição acima.
+As imagens originais do esboço estão em `docs/reference/`, para que qualquer agente
+possa abri-las com `Read` em vez de depender da descrição acima.
+
+Elas servem para entender **de onde o sistema veio** — o peso da display, o contraste,
+o respiro. Não são a especificação da página atual: quem manda sobre o que existe hoje
+é a seção _Seções_ acima. Divergência entre print e página é esperada, e a página
+ganha.

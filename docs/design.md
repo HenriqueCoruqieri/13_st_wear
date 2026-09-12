@@ -70,17 +70,23 @@ Vídeo em loop ocupando a tela inteira, conteúdo ancorado na base à esquerda.
 
 - Container `relative`, altura `100svh` (`svh`, não `vh` — a barra do navegador mobile
   quebra `vh`).
-- `<video>` em `absolute inset-0`, `object-cover`, com `autoPlay muted loop playsInline`
-  e um `poster` de fallback. Sem controles. `aria-hidden="true"` — é decorativo.
-- **Obrigatório:** sob `prefers-reduced-motion: reduce`, não reproduza o vídeo — mostre
-  a imagem do `poster`.
+- `<video>` em `absolute inset-0`, `object-cover`, com `autoPlay muted loop playsInline`.
+  Sem controles. `aria-hidden="true"` — é decorativo.
+- **Sem `poster`, por decisão do usuário.** O loop em movimento é a apresentação da
+  marca; um quadro estático descaracteriza. Consequência aceita: sob
+  `prefers-reduced-motion: reduce` o vídeo é escondido e sobra o fundo `ink` sólido,
+  não uma imagem. O texto mantém contraste de sobra sobre esse fundo.
+- **Obrigatório:** sob `prefers-reduced-motion: reduce`, não reproduza o vídeo.
 - Overlay escuro sobre o vídeo, mais denso na base, para garantir contraste AA do texto.
 - Conteúdo, de cima para baixo:
   - `13` — display, `paper` sólido.
   - `STREET` / `WEAR` — display em duas linhas, **contorno vazado**: preenchimento
     transparente com `-webkit-text-stroke` em `paper`. Sempre defina um `color` de
     fallback para quem não suporta `text-stroke`, senão o texto some.
-  - Tagline em duas linhas, `font-sans`, `paper` levemente translúcido.
+  - Tagline em duas linhas, `font-sans`, em `ink-soft`. Deliberadamente discreta: a
+    hierarquia é título → CTA → tagline, então ela **encolhe** no desktop
+    (`text-base` no mobile, `text-sm` a partir de `sm:`). Contraste ~5:1 sobre o
+    overlay, dentro do AA.
   - CTA WhatsApp: retângulo com borda `paper` 1px, fundo transparente, ícone + texto
     `WHATSAPP` em uppercase com `tracking-label`. Preenche no hover.
 

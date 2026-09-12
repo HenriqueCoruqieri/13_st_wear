@@ -34,9 +34,10 @@ Tailwind v4, então viram utilitárias automaticamente.
 | Token              | Valor     | Uso                                            |
 | ------------------ | --------- | ---------------------------------------------- |
 | `--color-ink`      | `#1a1a1a` | Texto principal, títulos, bordas, overlay      |
-| `--color-ink-soft` | `#8a8a85` | Texto secundário, categoria, copyright         |
+| `--color-ink-950`  | `#0d0d0d` | Fundo da seção institucional e do footer       |
+| `--color-ink-soft` | `#8a8a85` | Texto secundário, categoria                    |
 | `--color-bone`     | `#f5f3ef` | Fundo das seções claras                        |
-| `--color-bone-dim` | `#e8e6e1` | Fundo de imagem de produto                     |
+| `--color-bone-dim` | `#e8e6e1` | Fundo de imagem secundário (sem uso hoje)      |
 | `--color-paper`    | `#ffffff` | Badges, texto sobre o hero                     |
 | `--color-whatsapp` | `#25d366` | **Apenas o ícone do WhatsApp.** Nunca em texto |
 
@@ -47,8 +48,8 @@ do ícone. Não use como cor de marca, de botão preenchido nem de link.
 
 | Token              | Valor                                 | Uso                       |
 | ------------------ | ------------------------------------- | ------------------------- |
-| `--font-display`   | `'Anton', 'Arial Narrow', sans-serif` | Títulos, nome de produto  |
-| `--font-sans`      | `'Inter', system-ui, sans-serif`      | Corpo, labels, preço      |
+| `--font-display`   | `'Anton', 'Arial Narrow', sans-serif` | Títulos                   |
+| `--font-sans`      | `'Inter', system-ui, sans-serif`      | Corpo, labels             |
 | `--tracking-label` | `0.18em`                              | Labels uppercase pequenos |
 
 **A display é uma suposição.** Anton foi escolhida por ser a condensada pesada gratuita
@@ -59,9 +60,10 @@ Regras de uso:
 
 - **Display** é sempre `uppercase`. Nunca use em texto corrido nem abaixo de 14px.
   Anton tem um único peso (400) — não aplique `font-bold` nela.
-- **Labels pequenos** (`NOVA COLEÇÃO · 2026`, `CAMISETA`, `INTERESSE`, links do footer)
-  são `font-sans`, `uppercase`, `text-xs`, `tracking-label`.
-- **Corpo** (tagline do hero) é `font-sans`, caixa normal, sem tracking extra.
+- **Labels pequenos** (ex.: `WHATSAPP` no CTA do Hero) são `font-sans`, `uppercase`,
+  `text-xs`, `tracking-label`.
+- **Corpo** (tagline do hero, parágrafo institucional) é `font-sans`, caixa normal, sem
+  tracking extra.
 - Carregue **no máximo dois pesos** da sans. Fonte é o item mais pesado de uma landing
   page e a primeira dobra depende dela.
 
@@ -105,35 +107,41 @@ Vídeo em loop ocupando a tela inteira, conteúdo ancorado na base à esquerda.
   - CTA WhatsApp: retângulo com borda `paper` 1px, fundo transparente, ícone + texto
     `WHATSAPP` em uppercase com `tracking-label`. Preenche no hover.
 
-### 2. Em destaque
+### 2. Institucional
 
-Fundo `bone`.
+O carrossel de produtos foi cancelado pelo lojista: o tráfego vem do Instagram, então o
+visitante já viu os produtos. No lugar entra um bloco de texto institucional puro — sem
+heading, sem botão.
 
-- Cabeçalho em uma linha: título `EM DESTAQUE` (display) à esquerda e o label
-  `NOVA COLEÇÃO · 2026` à direita, alinhados pela base.
-- **Carrossel com scroll horizontal**, no mobile e no desktop (confirmado pelo usuário):
-  - `overflow-x-auto` com `scroll-snap-type: x mandatory`; cada card com
-    `scroll-snap-align: start`.
-  - Cards de **largura fixa** — o corte parcial do próximo card é intencional: é a
-    dica visual de que há mais conteúdo. Não deixe o último card encostar na borda.
-  - Esconda a barra de rolagem, mas **mantenha a navegação por teclado funcionando**.
-  - O container precisa de rótulo acessível e ser focável para quem navega por teclado.
-- Card de produto:
-  - Imagem em caixa `bone-dim` com `aspect-ratio` fixo, evitando layout shift.
-  - Badge (`DESTAQUE`, `NOVO`) sobreposto no topo à esquerda: fundo `paper`, texto
-    `ink`, `text-xs`, uppercase, `tracking-label`. **Opcional** — nem todo produto tem.
-  - Categoria — label pequeno em `ink-soft`.
-  - Nome — display, uppercase, `ink`.
-  - Preço — `font-sans`, `ink`.
-  - Botão `INTERESSE` — borda `ink` 1px, fundo transparente, ícone WhatsApp + texto.
+- Fundo `ink-950`, o preto mais escuro da paleta. Nenhuma borda ou marcação separa esta
+  seção do Hero: o Hero já termina em `ink` sólido e opaco na base do seu overlay
+  (`from-ink from-15%`), e o salto de `ink` para `ink-950` é pequeno o bastante para ler
+  como transição contínua, não como corte.
+- Conteúdo centralizado, coluna única, `max-w-2xl` (mais próximo do ~640px observado que
+  os degraus vizinhos da escala padrão do Tailwind), com respiro vertical generoso.
+- Parágrafo institucional: `font-sans`, `text-base`, `leading-relaxed`, cor
+  `text-bone/80` sobre o fundo `ink-950` (contraste calculado ~11.3:1 — folga grande
+  acima do AA de 4.5:1).
+- Frase de destaque, um espaço abaixo do parágrafo: `font-sans`, `font-semibold` (600 —
+  o único peso pesado que a Inter carrega neste projeto, nunca `font-bold`), `text-paper`
+  sólido, `text-lg` no mobile subindo a `md:text-xl`. Contraste ~19.4:1.
 
 ### 3. Footer
 
-Mesmo fundo `bone`, separado por borda superior 1px.
+Mesmo fundo `ink-950`, separado do que vem antes por `border-t border-paper/10` — traço
+de 1px quase invisível, só para dar um limite visual entre o corpo do texto e o rodapé.
 
-- `13 STREET WEAR` em display pequena.
-- Links `WHATSAPP` e `INSTAGRAM` como labels uppercase.
-- `© 2026` em `ink-soft`.
+- Layout em linha única, `justify-between`, `items-center`, em todos os breakpoints:
+  logo à esquerda, copyright à direita.
+- Logo: `src/assets/logo-mark.png`, marca branca com alfa real, `<img>` normal (sem
+  `mix-blend-mode`), dimensões intrínsecas `192×193`, exibida em `h-11` (44px) no
+  mobile, `sm:h-12` (48px) — dentro da faixa 44–52px observada no print.
+- Copyright: `© {ano atual} 13 Street Wear`, `font-sans`, `text-xs`, cor
+  `text-bone/55` — o texto mais apagado da página (contraste calculado ~5.7:1, ainda
+  acima do AA de 4.5:1, mas visivelmente mais baixo que o parágrafo institucional).
+  O ano é calculado em runtime (`new Date().getFullYear()`), nunca fixo no dado.
+- **Sem links de `WHATSAPP` e `INSTAGRAM`** — removidos por decisão do usuário. Se
+  voltarem, é uma decisão de produto nova, não uma correção desta spec.
 
 Todo link externo leva `target="_blank"` e `rel="noopener noreferrer"`.
 
@@ -142,22 +150,25 @@ Todo link externo leva `target="_blank"` e `rel="noopener noreferrer"`.
 > Camada **derivada**, como as seções: cada shape aqui só existe enquanto a seção que o
 > consome existir.
 
-O conteúdo mora em `src/data/`, nunca no JSX. Shape esperado de um produto:
+O conteúdo mora em `src/data/`, nunca no JSX. Shape esperado de cada seção atual:
 
 ```js
+// src/data/about.js
 {
-  id: 'urban-oversized-tee',   // string estável, usada como key
-  name: 'Urban Oversized Tee',
-  category: 'Camiseta',
-  price: 89,                   // número; a formatação BRL é responsabilidade da view
-  badge: 'destaque',           // 'destaque' | 'novo' | null
-  image: '/products/tee.webp',
-  alt: 'Camiseta oversized preta vista de frente',
+  paragraph: 'Criada em 2019 e reinaugurada em 2022, a 13 Street Wear é referência...',
+  highlight: 'A moda passa, o estilo permanece!',
 }
 ```
 
-Preço é **número**, não string. A formatação (`R$ 89`, sem centavos) fica em uma função
-pura em `src/lib/`, para que o dado continue sendo dado.
+```js
+// src/data/footer.js
+{
+  brandName: '13 Street Wear',
+}
+```
+
+O ano do copyright **não** entra no dado — é calculado no componente com
+`new Date().getFullYear()`, para nunca ficar desatualizado.
 
 ## Acessibilidade — o que este design exige atenção
 

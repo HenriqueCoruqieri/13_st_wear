@@ -19,7 +19,6 @@ const ctaClassName =
   'border-paper text-paper hover:bg-paper hover:text-ink focus-visible:border-paper focus-visible:ring-paper focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink mt-8 min-h-11 border px-6 py-3 has-[>svg]:px-6 sm:mt-10';
 
 function Hero() {
-  const hasLink = Boolean(hero.cta.href);
   const accessibleTitle = `${hero.title.mark} ${hero.title.lines.join(' ')}`;
 
   const ctaContent = (
@@ -76,17 +75,11 @@ function Hero() {
           ))}
         </p>
 
-        {hasLink ? (
-          <Button asChild variant="ghost" className={ctaClassName}>
-            <a href={hero.cta.href} target="_blank" rel="noopener noreferrer">
-              {ctaContent}
-            </a>
-          </Button>
-        ) : (
-          <Button type="button" variant="ghost" className={ctaClassName}>
+        <Button asChild variant="ghost" className={ctaClassName}>
+          <a href={hero.cta.href} target="_blank" rel="noopener noreferrer">
             {ctaContent}
-          </Button>
-        )}
+          </a>
+        </Button>
       </div>
     </section>
   );

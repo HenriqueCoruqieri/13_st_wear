@@ -1,3 +1,4 @@
+import heroFrame from '@/assets/frame.png';
 import heroVideo from '@/assets/hero-video.mp4';
 import { Button } from '@/components/ui/Button';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
@@ -34,6 +35,12 @@ function Hero() {
           layout. bg-ink looks unused because the video covers it, but it is the only
           backdrop left once motion-reduce hides the video, and it prevents a white flash
           while the video loads. */}
+      <img
+        src={heroFrame}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover hidden motion-reduce:block"
+      />
       <video
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
         autoPlay

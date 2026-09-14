@@ -116,3 +116,17 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+@layer base {
+  /* Hides all native browser media controls rendered on top of the video.
+     On iOS Safari this includes a centre play button that appears when autoplay
+     is deferred; hiding the full controls panel is the only reliable cross-
+     browser way to remove it without JavaScript. */
+  video::-webkit-media-controls,
+  video::-webkit-media-controls-panel,
+  video::-webkit-media-controls-play-button,
+  video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+}

@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import heroFrame from '@/assets/frame.png';
 import heroVideo from '@/assets/hero-video.mp4';
 import { Button } from '@/components/ui/Button';
@@ -20,7 +22,39 @@ const ctaClassName =
   'border-paper text-paper hover:bg-paper hover:text-ink focus-visible:border-paper focus-visible:ring-paper focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink mt-8 min-h-11 border px-6 py-3 has-[>svg]:px-6 sm:mt-10';
 
 function Hero() {
+  const videoRef = useRef(null);
+  const [videoStarted, setVideoStarted] = useState(false);
   const accessibleTitle = `${hero.title.mark} ${hero.title.lines.join(' ')}`;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      // Setting muted programmatically in addition to the attribute satisfies
+      // stricter browser autoplay checks that inspect the IDL attribute, not HTML.
+      video.muted = true;
+      video.play().catch(() => {});
+    };
+
+    // Immediate attempt.
+    tryPlay();
+
+    // Delayed retry: some mobile browsers need the layout to settle before
+    // honouring a programmatic play() call.
+    const retryTimer = setTimeout(tryPlay, 500);
+
+    // Last-resort fallback for iOS Low Power Mode, which blocks all autoplay
+    // until the first user gesture regardless of mute state.
+    document.addEventListener('touchstart', tryPlay, { once: true });
+    document.addEventListener('click', tryPlay, { once: true });
+
+    return () => {
+      clearTimeout(retryTimer);
+      document.removeEventListener('touchstart', tryPlay);
+      document.removeEventListener('click', tryPlay);
+    };
+  }, []);
 
   const ctaContent = (
     <>
@@ -35,22 +69,29 @@ function Hero() {
           layout. bg-ink looks unused because the video covers it, but it is the only
           backdrop left once motion-reduce hides the video, and it prevents a white flash
           while the video loads. */}
-      <img
-        src={heroFrame}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover hidden motion-reduce:block"
-      />
       <video
-        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden pointer-events-none"
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
         aria-hidden="true"
+        onPlay={() => setVideoStarted(true)}
       >
         <source src={heroVideo} type="video/mp4" />
       </video>
+
+      {/* Covers the video until it starts playing, hiding the native browser play
+          overlay that appears when autoplay is deferred (e.g. iOS Low Power Mode).
+          Fades out on play via videoStarted; stays visible for motion-reduce. */}
+      <img
+        src={heroFrame}
+        alt=""
+        aria-hidden="true"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 motion-reduce:opacity-100 ${videoStarted ? 'opacity-0' : 'opacity-100'}`}
+      />
 
       <div
         aria-hidden="true"
